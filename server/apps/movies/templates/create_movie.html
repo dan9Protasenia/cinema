@@ -15,7 +15,7 @@
             margin: auto;
             padding: 20px;
             background-color: #fff;
-            border-radius: 5px;
+            border-radius: 15px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             margin-top: 50px;
         }
@@ -24,7 +24,8 @@
         }
         .form-group input[type="text"],
         .form-group input[type="date"],
-        .form-group textarea {
+        .form-group textarea,
+        .form-group select {
             width: 100%;
             padding: 10px;
             border: 1px solid #ccc;
@@ -38,32 +39,28 @@
         .btn-secondary {
             margin-top: 10px;
         }
+        .header {
+            font-family: 'Comic Sans MS', sans-serif;
+            padding: 0px;
+            text-align: center;
+            color: black;
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h2 class="mt-3">Add a New Movie</h2>
+        <h2 class="header">Add a New Movie</h2>
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            <div class="form-group">
-                <label for="{{ form.title.id_for_label }}">Title</label>
-                {{ form.title }}
-            </div>
 
-            <div class="form-group">
-                <label for="{{ form.release_date.id_for_label }}">Release Date</label>
-                {{ form.release_date }}
-            </div>
-
-            <div class="form-group">
-                <label for="{{ form.description.id_for_label }}">Description</label>
-                {{ form.description }}
-            </div>
-
-            <div class="form-group">
-                <label for="{{ form.poster.id_for_label }}">Poster</label>
-                {{ form.poster }}
-            </div>
+            {% for field in form %}
+                <div class="form-group">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                </div>
+            {% endfor %}
 
             <button type="submit" class="btn btn-primary">Add Movie</button>
         </form>
