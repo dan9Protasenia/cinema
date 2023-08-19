@@ -74,11 +74,24 @@
         .btn:hover {
             background-color: #c0392b;
         }
+        .booking-form {
+            display: none;
+            margin-top: 20px;
+        }
     </style>
+    <script>
+        function toggleBookingForm() {
+            var bookingForm = document.getElementById("bookingForm");
+            if (bookingForm.style.display === "none") {
+                bookingForm.style.display = "block";
+            } else {
+                bookingForm.style.display = "none";
+            }
+        }
+    </script>
 </head>
 <body>
-
-{% block content %}
+    {% block content %}
     <div class="movie-details">
         <img src="{{ movie.poster.url }}" alt="{{ movie.title }}" class="movie-poster">
         <h1 class="movie-title">{{ movie.title }}</h1>
@@ -109,9 +122,20 @@
         </div>
         <div class="btn-container">
             <a href="{% url 'movies:delete_movie' movie.pk %}" class="btn">Удалить</a>
+            <button class="btn" onclick="toggleBookingForm()">Бронирование</button>
+        </div>
+        <div class="booking-form" id="bookingForm">
+            <h2>Бронирование мест</h2>
+            <form method="post">
+                {% csrf_token %}
+                <label for="booked_seats">Количество мест:</label>
+                <input type="number" name="booked_seats" min="1" value="1">
+                <label for="available_seats">что-то:</label>
+                <input type="number" name="booked_seats">
+                <button type="submit" class="btn btn-primary">Забронировать</button>
+            </form>
         </div>
     </div>
-{% endblock %}
-
+    {% endblock %}
 </body>
 </html>
